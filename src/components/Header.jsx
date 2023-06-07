@@ -1,0 +1,41 @@
+import {useState, useEffect} from 'react';
+import { SearchList, SearchBox} from './'
+import { data } from '../system/data'
+export const Header = () => {
+  const [search, setSearch] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const changeSearch = (e) => {
+    let value = e.target.value;
+    setSearch((value));
+  }
+  useEffect(() => {
+    const filterData = () => {
+      if (search.length > 0) {
+        let results = data.filter((item) => {
+          return item.toLowerCase().includes(search.toLowerCase());
+        });
+        setSearchResults(results);
+      } else {
+        setSearchResults([]);
+      }
+    }
+    const timer = setTimeout(() => {
+      filterData();
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [search]);
+  return (
+    <header className='row position-relative'>
+      <SearchBox
+        search={search}
+        changeSearch={changeSearch}
+      />
+      {searchResults.length > 0 ?
+        <SearchList
+          searchResults={searchResults}
+        />
+        : null
+      }
+    </header>
+  );
+}
