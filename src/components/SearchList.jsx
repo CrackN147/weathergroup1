@@ -1,6 +1,7 @@
 export const SearchList = (props) => {
   const {
-    searchResults
+    searchResults,
+    changeCity
   } = props;
   return (
     <div className="position-absolute top-100 start-50 translate-middle-x overflow-scroll"
@@ -12,10 +13,14 @@ export const SearchList = (props) => {
     >
       <ul className="list-group">
         {searchResults.map((item, index) => {
+          let list = item.split('	');
           return (
             <li
               key={index}
-              className="list-group-item"
+              className="list-group-item pointer custom-element-hover"
+              onClick={
+                () => changeCity(list[0])
+              }
             >
               {item}
             </li>

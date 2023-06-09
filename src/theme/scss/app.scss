@@ -1,0 +1,49 @@
+.App{
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter:blur(0.4px);
+  &.rain {
+    background-image: url('../images/rain.jpeg');
+  }
+  &.clouds {
+    background-image: url('../images/clouds.jpeg');
+  }
+  &.clear {
+    background-image: url('../images/clear.jpeg');
+  }
+  &.snow {
+    background-image: url('../images/snow.avif');
+  }
+  &.thunderstorm {
+    background-image: url('../images/thunderstorm.jpeg');
+  }
+  &.haze {
+    background-image: url('../images/haze.jpeg');
+  }
+  &.mist {
+    background-image: url('../images/mist.jpeg');
+  }
+  &.smoke {
+    background-image: url('../images/smoke.jpeg');
+  }
+  &.sunny {
+    background-image: url('../images/sunny.jpeg');
+  }
+}
+
+.background-custom-type{
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px !important;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.custom-element-hover {
+  &:hover {
+    background-color: #e9ecef;
+  }
+}

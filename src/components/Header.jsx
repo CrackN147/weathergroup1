@@ -1,7 +1,10 @@
 import {useState, useEffect} from 'react';
 import { SearchList, SearchBox} from './'
 import { data } from '../system/data'
-export const Header = () => {
+export const Header = (props) => {
+  const {
+    changeCity
+  } = props;
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const changeSearch = (e) => {
@@ -21,7 +24,7 @@ export const Header = () => {
     }
     const timer = setTimeout(() => {
       filterData();
-    }, 1000);
+    }, 200);
     return () => clearTimeout(timer);
   }, [search]);
   return (
@@ -33,6 +36,12 @@ export const Header = () => {
       {searchResults.length > 0 ?
         <SearchList
           searchResults={searchResults}
+          changeCity={
+            (cityName) => {
+              changeCity(cityName);
+              setSearch('');
+            }
+          }
         />
         : null
       }
