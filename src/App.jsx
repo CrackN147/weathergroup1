@@ -1,5 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import queryString from 'query-string';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Autoplay, Pagination } from 'swiper';
 import {
   getForecast,
   getCurrentWeather
@@ -16,6 +20,7 @@ export const App = () => {
   }
 
   const viewForecast = (item) => {
+    if (!item || activeWeather === null) return;
     let clone = { ...activeWeather };
     clone.weather = item.weather;
     clone.main = {
@@ -30,6 +35,18 @@ export const App = () => {
     clone.dt = item.dt;
     setActiveWeather(clone);
   }
+
+  const onSlideChange = (event) => {
+    let index = event.realIndex;
+    viewForecast(forecast.list[index]);
+  }
+
+  const progressCircle = useRef(null);
+  const progressContent = useRef(null);
+  const onAutoplayTimeLeft = (s, time, progress) => {
+    progressCircle.current.style.setProperty('--progress', 1 - progress);
+    progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,20 +84,44 @@ export const App = () => {
           />
           : null
         }
-        <div className="row d-flex justify-content-center">
+        <Swiper
+          slidesPerView={3}
+          loop={true}
+          spaceBetween={30}
+          centeredSlides={true}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          modules={[Autoplay, Pagination]}
+          onAutoplayTimeLeft={onAutoplayTimeLeft}
+          className="pb-3"
+          onSlideChange={onSlideChange}
+        >
           {forecast ?
             forecast.list.map((item, index) => (
-              <CityCard
-                key={index}
-                {...item}
-                viewForecast={
-                  () => viewForecast(item)
-                }
-              />
+              <SwiperSlide key={index}>
+                <CityCard
+                  {...item}
+                  viewForecast={
+                    () => viewForecast(item)
+                  }
+                />
+              </SwiperSlide>
             ))
             : null
           }
-        </div>
+          <div className="autoplay-progress" slot="container-end">
+            <svg viewBox="0 0 48 48" ref={progressCircle}>
+              <circle cx="24" cy="24" r="20"></circle>
+            </svg>
+            <span ref={progressContent}></span>
+          </div>
+        </Swiper>
       </div>
     </div>
   );

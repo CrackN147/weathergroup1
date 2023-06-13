@@ -15,7 +15,7 @@ export const CityCard = (props) => {
     fontSize: "14px"
   };
   return (
-    <div className="card col-3 m-2 d-flex justify-content-center background-custom-type">
+    <div className="card m-2 d-flex justify-content-center background-custom-type">
       <div className="card-body p-2">
         <div className="row border-bottom pointer m-2"
           onClick={viewForecast}
@@ -32,7 +32,7 @@ export const CityCard = (props) => {
           </div>
         </div>
         <h6 className="card-text m-0 mb-2 text-nowrap">
-          {weather[0].description}
+        {moment.unix(dt).format("dddd, MM")}, ({weather[0].description})  
         </h6>
         <p className="card-text mb-1" style={customFontSize}>
           Preassure: {pressure} hPa
@@ -61,9 +61,6 @@ export const CityCard = (props) => {
         <p className="card-text mb-3" style={customFontSize}>
           Night: {feels_like.night} °C
         </p>
-        <span className="card-text m-0" style={customFontSize}>
-          Date: {moment.unix(dt).format("dd, MM")}
-        </span>
       </div>
     </div>
   );
